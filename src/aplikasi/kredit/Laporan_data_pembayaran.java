@@ -5,9 +5,17 @@
  */
 package aplikasi.kredit;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -27,22 +35,21 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
     private void show_data(){
         // membuat tampilan model tabel
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("NO KONTRAK");
-        model.addColumn("ANGSURAN");
-        model.addColumn("JUMLAH");
-        model.addColumn("JATUH TEMPO");
-        model.addColumn("DENDA");
-        model.addColumn("TOTAL");
+        model.addColumn("No Kontrak");
+        model.addColumn("Angsuran");
+        model.addColumn("Jumlah");
+        model.addColumn("Denda");
+        model.addColumn("Total");
         
         
         //menampilkan data database kedalam tabel
         try {
-            String sql = "SELECT `no_kontrak`,`angsuran`,`jumlah`,`jatuh_tempo`,`denda`,`total` FROM pembayaran";
+            String sql = "SELECT `no_kontrak`,`angsuran`,`jumlah`,`denda`,`total` FROM pembayaran";
             java.sql.Connection conn=(Connection)config.configDB();
             java.sql.Statement stm=conn.createStatement();
             java.sql.ResultSet res=stm.executeQuery(sql);
             while(res.next()){
-                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6)});
+                model.addRow(new Object[]{res.getString("no_kontrak"),res.getString("angsuran"),res.getString("jumlah"),res.getString("denda"),res.getString("total")});
             }
             laporan_pembayaran.setModel(model);
             System.out.print("Berhasil Nampil Data");
@@ -73,6 +80,7 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         laporan_pembayaran = new javax.swing.JTable();
+        btn_cetak = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -103,18 +111,26 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
 
         laporan_pembayaran.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "No Kontrak", "Angsuran", "Jumlah", "Denda", "Total"
             }
         ));
         jScrollPane2.setViewportView(laporan_pembayaran);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 680, 210));
+
+        btn_cetak.setText("Cetak");
+        btn_cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cetakActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_cetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 140, 90, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,6 +151,19 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cetakActionPerformed
+        // TODO add your handling code here:
+        try {
+            File namafile = new File("src/lapotan_pembayaran/lapotan_pembayaran.jasper");
+            JasperPrint jp = JasperFillManager.fillReport(namafile.getPath(), null, config.configDB());
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        } catch (SQLException ex) {
+            Logger.getLogger(Laporan__data_Karyawan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_cetakActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,6 +201,7 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_cetak;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
