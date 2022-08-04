@@ -98,6 +98,11 @@ public class Homepage extends javax.swing.JFrame {
         jPanel1.add(btn_data_asset, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 160, -1));
 
         btn_report.setText("Report");
+        btn_report.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_reportActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_report, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 160, -1));
 
         btn_logout.setText("Logout");
@@ -177,6 +182,14 @@ public class Homepage extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btn_logoutActionPerformed
+
+    private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
+        // TODO add your handling code here:
+        RepotPage repot = new RepotPage();
+        repot.show();
+        
+        dispose();
+    }//GEN-LAST:event_btn_reportActionPerformed
 
     /**
      * @param args the command line arguments

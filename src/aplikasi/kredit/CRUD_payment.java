@@ -61,8 +61,10 @@ public final class CRUD_payment extends javax.swing.JFrame {
         }
     }
     
-    public String dateCompare (String tanggal_kredit , int angsuran) {
+    public Object[] dateCompare (String tanggal_kredit , int angsuran) {
         String tanggal = "";
+        String jatuhTempo = "";
+        String[] tanggal_jatuh_tempo;
         try {
             LocalDate date_now = LocalDate.now();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
@@ -79,10 +81,11 @@ public final class CRUD_payment extends javax.swing.JFrame {
                 difference = 0;
                 daysBetween = 0;
             }
+            jatuhTempo = add;
             tanggal = String.valueOf(daysBetween);
         } catch (Exception e) {
         }
-        return tanggal;
+        return new Object[]{tanggal,jatuhTempo};
     }
     
     public void payment() {
@@ -148,7 +151,6 @@ public final class CRUD_payment extends javax.swing.JFrame {
         input_angsuran = new javax.swing.JTextField();
         input_bayar = new javax.swing.JTextField();
         input_jatuh_tempo = new javax.swing.JTextField();
-        btn_delete = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_submit = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -163,6 +165,8 @@ public final class CRUD_payment extends javax.swing.JFrame {
         input_name = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         input_id_pembayaran = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        tanggal_jatuh_tempo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -181,8 +185,8 @@ public final class CRUD_payment extends javax.swing.JFrame {
         jLabel4.setText("Jumlah yang harus dibayar");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 210, 30));
 
-        jLabel5.setText("Tanggal Jatuh Tempo");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, 30));
+        jLabel5.setText("Total Hari Jatuh Tempo");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, 30));
 
         input_angsuran.setEnabled(false);
         jPanel1.add(input_angsuran, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 230, -1));
@@ -191,10 +195,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
         jPanel1.add(input_bayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 210, 230, -1));
 
         input_jatuh_tempo.setEnabled(false);
-        jPanel1.add(input_jatuh_tempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 230, -1));
-
-        btn_delete.setText("Delete");
-        jPanel1.add(btn_delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, -1, -1));
+        jPanel1.add(input_jatuh_tempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 230, -1));
 
         btn_edit.setText("Edit");
         btn_edit.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +203,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
                 btn_editActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, -1, -1));
+        jPanel1.add(btn_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, -1, -1));
 
         btn_submit.setText("Submit");
         btn_submit.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +211,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
                 btn_submitActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, -1, -1));
+        jPanel1.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, -1, -1));
 
         table_pembayaran.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -233,7 +234,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
             table_pembayaran.getColumnModel().getColumn(0).setMaxWidth(15);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 490, 160));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 490, 160));
 
         btn_homepage.setText("Back Homepage");
         btn_homepage.addActionListener(new java.awt.event.ActionListener() {
@@ -241,7 +242,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
                 btn_homepageActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_homepage, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 370, -1, -1));
+        jPanel1.add(btn_homepage, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 420, -1, -1));
 
         input_no_kontrak.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- select no kontrak --" }));
         input_no_kontrak.addItemListener(new java.awt.event.ItemListener() {
@@ -257,16 +258,16 @@ public final class CRUD_payment extends javax.swing.JFrame {
         jPanel1.add(input_no_kontrak, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 230, -1));
 
         jLabel6.setText("Total Denda");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, 30));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, 30));
 
         input_denda.setEnabled(false);
-        jPanel1.add(input_denda, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 230, -1));
+        jPanel1.add(input_denda, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 230, -1));
 
         jLabel7.setText("Total Pembayaran");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, 30));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, 30));
 
         input_pembayaran.setEnabled(false);
-        jPanel1.add(input_pembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 230, -1));
+        jPanel1.add(input_pembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 230, -1));
 
         jLabel8.setText("Nama Customer");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
@@ -279,6 +280,12 @@ public final class CRUD_payment extends javax.swing.JFrame {
 
         input_id_pembayaran.setEnabled(false);
         jPanel1.add(input_id_pembayaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 230, -1));
+
+        jLabel10.setText("Tanggal Jatuh Tempo");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
+
+        tanggal_jatuh_tempo.setEnabled(false);
+        jPanel1.add(tanggal_jatuh_tempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -293,7 +300,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -342,16 +349,17 @@ public final class CRUD_payment extends javax.swing.JFrame {
                 String no_kontrak = res.getString("no_kontrak");
                 String nama = res.getString("nama");
                 String tanggal_kredit = res.getString("tanggal_kredit");
-                String date = dateCompare(tanggal_kredit,angsuranKe(no_kontrak));
+                Object[] date = dateCompare(tanggal_kredit,angsuranKe(no_kontrak));
                 int a = angsuranKe(no_kontrak)+1;
               
-                int total_denda = 1000*Integer.parseInt(date);
+                int total_denda = 1000*Integer.parseInt((String) date[0]);
                 int total_pembayaran = Integer.parseInt(jumlah)+total_denda;
                 
                 input_name.setText(nama);
                 input_bayar.setText(jumlah);
                 input_angsuran.setText(String.valueOf(a));
-                input_jatuh_tempo.setText(date);
+                input_jatuh_tempo.setText((String) date[0]);
+                tanggal_jatuh_tempo.setText((String) date[1]);
                 input_denda.setText(String.valueOf(total_denda));
                 input_pembayaran.setText(String.valueOf(total_pembayaran));
             }
@@ -476,7 +484,6 @@ public final class CRUD_payment extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_homepage;
     private javax.swing.JButton btn_submit;
@@ -489,6 +496,7 @@ public final class CRUD_payment extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> input_no_kontrak;
     private javax.swing.JTextField input_pembayaran;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -500,5 +508,6 @@ public final class CRUD_payment extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table_pembayaran;
+    private javax.swing.JTextField tanggal_jatuh_tempo;
     // End of variables declaration//GEN-END:variables
 }
