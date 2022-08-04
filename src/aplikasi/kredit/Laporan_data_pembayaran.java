@@ -81,6 +81,7 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         laporan_pembayaran = new javax.swing.JTable();
         btn_cetak = new javax.swing.JButton();
+        btn_back = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -132,6 +133,14 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
         });
         jPanel1.add(btn_cetak, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 140, 90, -1));
 
+        btn_back.setText("Back");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 100, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,7 +164,7 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
     private void btn_cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cetakActionPerformed
         // TODO add your handling code here:
         try {
-            File namafile = new File("src/lapotan_pembayaran/lapotan_pembayaran.jasper");
+            File namafile = new File("src/laporan_pembayaran/laporan_pembayaran.jasper");
             JasperPrint jp = JasperFillManager.fillReport(namafile.getPath(), null, config.configDB());
             JasperViewer.viewReport(jp, false);
         } catch (JRException e) {
@@ -164,6 +173,14 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
             Logger.getLogger(Laporan__data_Karyawan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_cetakActionPerformed
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        // TODO add your handling code here:
+        RepotPage repot = new RepotPage();
+        repot.show();
+        
+        dispose();
+    }//GEN-LAST:event_btn_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,6 +218,7 @@ public class Laporan_data_pembayaran extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_cetak;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
